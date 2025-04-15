@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { format, parseISO } from "date-fns"
-import { ArrowLeft, Search, Filter, Wallet, PlusCircle } from "lucide-react"
+import { Search, Filter, Wallet, PlusCircle } from "lucide-react"
 import Link from "next/link"
 
 export default function History() {
@@ -42,7 +42,7 @@ export default function History() {
         (searchTerm === "" ||
           exp.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
           exp.category.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        (categoryFilter === "" || exp.category === categoryFilter),
+        (categoryFilter === "" || categoryFilter === "all" || exp.category === categoryFilter),
     )
     .sort((a, b) => {
       switch (sortOrder) {
@@ -60,18 +60,13 @@ export default function History() {
     })
 
   return (
-    <div className="container mx-auto p-4 md:p-6 pt-20 md:pt-8 pb-20">
-      <div className="flex items-center mb-6">
-        <Link href="/">
-          <Button variant="ghost" size="icon" className="mr-2">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-        </Link>
-        <h1 className="text-3xl font-bold">Expense History</h1>
+    <div className="flex-1 space-y-8 p-8 pt-6">
+      <div className="flex items-center justify-between space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight">Expense History</h2>
       </div>
 
-      <Card className="mb-6">
-        <CardContent className="p-4">
+      <Card>
+        <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -120,12 +115,12 @@ export default function History() {
 
       {loading ? (
         <div className="flex justify-center items-center h-40">
-          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
         </div>
       ) : filteredExpenses.length > 0 ? (
         <div className="space-y-4">
           {filteredExpenses.map((expense) => (
-            <Card key={expense.id} className="overflow-hidden hover:shadow-md transition-shadow">
+            <Card key={expense.id} className="overflow-hidden hover:shadow-md transition-shadow border">
               <div className="flex items-center p-4">
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mr-4">
                   <Wallet className="h-5 w-5 text-primary" />

@@ -1,17 +1,16 @@
 "use client"
 import { useState } from "react"
 import type React from "react"
+import { PlusCircle } from "lucide-react"
 
 import { addExpense } from "@/lib/firestore"
 import type { Expense } from "@/types"
-import FeedbackMessage from "@/components/FeedbackMessage"
+import FeedbackMessage from "@/components/ui/feedback-message"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { PlusCircle, ArrowLeft } from "lucide-react"
-import Link from "next/link"
 
 export default function AddExpense() {
   const [form, setForm] = useState<Expense>({
@@ -50,14 +49,9 @@ export default function AddExpense() {
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-6 pt-20 md:pt-8 pb-20">
-      <div className="flex items-center mb-6">
-        <Link href="/">
-          <Button variant="ghost" size="icon" className="mr-2">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-        </Link>
-        <h1 className="text-3xl font-bold">Add Expense</h1>
+    <div className="flex-1 space-y-8 p-8 pt-6">
+      <div className="flex items-center justify-between space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight">Add Expense</h2>
       </div>
 
       {feedback && (
@@ -68,7 +62,7 @@ export default function AddExpense() {
         />
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>New Expense</CardTitle>

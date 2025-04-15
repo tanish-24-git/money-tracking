@@ -21,8 +21,8 @@ interface DailyChartProps {
 }
 
 export default function DailyChart({ expenses }: DailyChartProps) {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
 
   // Get last 14 days
   const today = new Date()
@@ -53,12 +53,12 @@ export default function DailyChart({ expenses }: DailyChartProps) {
       {
         label: "Daily Expenses (₹)",
         data: dates.map((date) => dailyData[date]),
-        borderColor: "rgba(147, 51, 234, 1)",
-        backgroundColor: "rgba(147, 51, 234, 0.1)",
+        borderColor: "hsl(var(--primary))",
+        backgroundColor: isDark ? "hsla(var(--primary), 0.2)" : "hsla(var(--primary), 0.1)",
         borderWidth: 2,
         pointRadius: 4,
-        pointBackgroundColor: "rgba(147, 51, 234, 1)",
-        pointBorderColor: isDark ? "#1e1e2f" : "#ffffff",
+        pointBackgroundColor: "hsl(var(--primary))",
+        pointBorderColor: isDark ? "hsl(var(--background))" : "hsl(var(--background))",
         pointBorderWidth: 2,
         tension: 0.4,
         fill: true,
@@ -74,10 +74,10 @@ export default function DailyChart({ expenses }: DailyChartProps) {
         display: false,
       },
       tooltip: {
-        backgroundColor: isDark ? "rgba(30, 30, 47, 0.8)" : "rgba(255, 255, 255, 0.8)",
-        titleColor: isDark ? "#fff" : "#000",
-        bodyColor: isDark ? "#fff" : "#000",
-        borderColor: "rgba(147, 51, 234, 0.3)",
+        backgroundColor: isDark ? "hsl(var(--card))" : "hsl(var(--card))",
+        titleColor: isDark ? "hsl(var(--foreground))" : "hsl(var(--foreground))",
+        bodyColor: isDark ? "hsl(var(--foreground))" : "hsl(var(--foreground))",
+        borderColor: "hsla(var(--primary), 0.3)",
         borderWidth: 1,
         padding: 10,
         displayColors: false,
@@ -93,16 +93,16 @@ export default function DailyChart({ expenses }: DailyChartProps) {
           drawBorder: false,
         },
         ticks: {
-          color: isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)",
+          color: isDark ? "hsla(var(--foreground), 0.6)" : "hsla(var(--foreground), 0.6)",
         },
       },
       y: {
         grid: {
-          color: isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.1)",
+          color: isDark ? "hsla(var(--foreground), 0.1)" : "hsla(var(--foreground), 0.1)",
           drawBorder: false,
         },
         ticks: {
-          color: isDark ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)",
+          color: isDark ? "hsla(var(--foreground), 0.6)" : "hsla(var(--foreground), 0.6)",
           callback: (value: any) => "₹" + value,
         },
         beginAtZero: true,

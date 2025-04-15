@@ -5,10 +5,9 @@ import type { Expense, Budget } from "@/types"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { format, parseISO, startOfMonth, endOfMonth, subMonths } from "date-fns"
-import DailyChart from "@/components/DailyChart"
-import PieChart from "@/components/PieChart"
-import { ArrowLeft, TrendingUp, PieChartIcon, BarChart2, Calendar } from "lucide-react"
-import Link from "next/link"
+import DailyChart from "@/components/charts/daily-chart"
+import PieChart from "@/components/charts/pie-chart"
+import { TrendingUp, PieChartIcon, BarChart2, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function Statistics() {
@@ -76,18 +75,24 @@ export default function Statistics() {
   const percentageChange =
     previousMonthTotal === 0 ? 100 : Math.round(((totalSpent - previousMonthTotal) / previousMonthTotal) * 100)
 
+  if (loading) {
+    return (
+      <div className="container flex h-screen items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+          <p className="text-sm text-muted-foreground">Loading statistics...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="container mx-auto p-4 md:p-6 pt-20 md:pt-8 pb-20">
-      <div className="flex items-center mb-6">
-        <Link href="/">
-          <Button variant="ghost" size="icon" className="mr-2">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-        </Link>
-        <h1 className="text-3xl font-bold">Statistics</h1>
+    <div className="flex-1 space-y-8 p-8 pt-6">
+      <div className="flex items-center justify-between space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight">Statistics</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Spending</CardTitle>
@@ -257,7 +262,7 @@ export default function Statistics() {
                     return (
                       <div
                         key={category}
-                        className="flex items-center justify-between p-3 border border-border rounded-lg"
+                        className="flex items-center justify-between p-3 border border-border/50 rounded-lg"
                       >
                         <div className="flex items-center">
                           <div className="w-3 h-3 rounded-full bg-primary mr-3"></div>
@@ -301,12 +306,15 @@ export default function Statistics() {
                     const dayTotal = dayExpenses.reduce((sum, exp) => sum + exp.amount, 0)
 
                     return (
-                      <div key={date} className="border border-border rounded-lg overflow-hidden">
+                      <div
+                        key={date}
+                        className="border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden"
+                      >
                         <div className="bg-muted p-3 font-medium flex justify-between">
                           <span>{format(parseISO(date), "EEEE, MMMM d, yyyy")}</span>
                           <span>₹{dayTotal.toLocaleString()}</span>
                         </div>
-                        <div className="divide-y divide-border">
+                        <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
                           {dayExpenses.map((expense, index) => (
                             <div key={index} className="p-3 flex justify-between">
                               <div>

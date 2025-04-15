@@ -11,8 +11,8 @@ interface PieChartProps {
 }
 
 export default function PieChart({ expenses }: PieChartProps) {
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
 
   // Calculate category totals
   const categoryData = expenses.reduce(
@@ -28,13 +28,13 @@ export default function PieChart({ expenses }: PieChartProps) {
 
   // Colors for categories
   const categoryColors = [
-    "rgba(147, 51, 234, 1)", // Purple
-    "rgba(59, 130, 246, 1)", // Blue
-    "rgba(16, 185, 129, 1)", // Green
-    "rgba(245, 158, 11, 1)", // Amber
-    "rgba(239, 68, 68, 1)", // Red
-    "rgba(14, 165, 233, 1)", // Sky
-    "rgba(249, 115, 22, 1)", // Orange
+    "hsl(var(--primary))",
+    "hsl(217, 91%, 60%)", // Blue
+    "hsl(142, 71%, 45%)", // Green
+    "hsl(43, 96%, 56%)", // Amber
+    "hsl(0, 84%, 60%)", // Red
+    "hsl(198, 93%, 60%)", // Sky
+    "hsl(30, 95%, 60%)", // Orange
   ]
 
   const chartData = {
@@ -43,7 +43,7 @@ export default function PieChart({ expenses }: PieChartProps) {
       {
         data: sortedCategories.map((category) => categoryData[category]),
         backgroundColor: sortedCategories.map((_, index) => categoryColors[index % categoryColors.length]),
-        borderColor: isDark ? "rgba(30, 30, 47, 1)" : "rgba(255, 255, 255, 1)",
+        borderColor: isDark ? "hsl(var(--background))" : "hsl(var(--background))",
         borderWidth: 2,
       },
     ],
@@ -56,7 +56,7 @@ export default function PieChart({ expenses }: PieChartProps) {
       legend: {
         position: "right" as const,
         labels: {
-          color: isDark ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.8)",
+          color: isDark ? "hsla(var(--foreground), 0.8)" : "hsla(var(--foreground), 0.8)",
           padding: 15,
           font: {
             size: 12,
@@ -84,10 +84,10 @@ export default function PieChart({ expenses }: PieChartProps) {
         },
       },
       tooltip: {
-        backgroundColor: isDark ? "rgba(30, 30, 47, 0.8)" : "rgba(255, 255, 255, 0.8)",
-        titleColor: isDark ? "#fff" : "#000",
-        bodyColor: isDark ? "#fff" : "#000",
-        borderColor: "rgba(147, 51, 234, 0.3)",
+        backgroundColor: isDark ? "hsl(var(--card))" : "hsl(var(--card))",
+        titleColor: isDark ? "hsl(var(--foreground))" : "hsl(var(--foreground))",
+        bodyColor: isDark ? "hsl(var(--foreground))" : "hsl(var(--foreground))",
+        borderColor: "hsla(var(--primary), 0.3)",
         borderWidth: 1,
         padding: 10,
         callbacks: {

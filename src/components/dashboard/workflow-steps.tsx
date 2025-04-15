@@ -38,7 +38,7 @@ export default function WorkflowSteps() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {steps.map((step, index) => (
-        <Link key={index} href={step.href}>
+        <Link key={index} href={step.href} className="block">
           <Card className="h-full hover:shadow-md transition-shadow cursor-pointer border-border/40">
             <CardContent className="p-6">
               <div className="flex flex-col items-center text-center">
